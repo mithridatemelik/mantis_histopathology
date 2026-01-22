@@ -1,0 +1,915 @@
+version: 1
+description: EDA catalog for histopathology cartography pipeline. Each item writes a JSON result in exports/eda/.
+items:
+- name: items__label_distribution
+  purpose: Check class balance of tissue labels (proxy for sampling bias).
+  fn: label_distribution
+  inputs:
+    items: items_df
+  outputs:
+    json: exports/eda/items__label_distribution.json
+  runtime_cost: low
+  decision_hook: If severely imbalanced, adjust stratified sampling or reweight training/clustering.
+  tags:
+  - data_quality
+  - distributions
+- name: items__image_size_summary
+  purpose: Verify expected patch dimensions and detect corrupted / mis-sized images.
+  fn: image_size_summary
+  inputs:
+    items: items_df
+  outputs:
+    json: exports/eda/items__image_size_summary.json
+  runtime_cost: low
+  decision_hook: If unexpected sizes appear, quarantine those images and re-run staging validation.
+  tags:
+  - image_quality
+  - data_quality
+- name: items__missingness
+  purpose: Detect missing critical fields (paths, labels, sizes).
+  fn: missingness
+  inputs:
+    items: items_df
+  outputs:
+    json: exports/eda/items__missingness.json
+  runtime_cost: low
+  decision_hook: If key fields are missing, fail fast and fix source plugin normalization.
+  tags:
+  - data_quality
+  - missingness
+- name: morph__summary
+  purpose: Summarize numeric morphology/QC features for quick sanity checks.
+  fn: morph_summary
+  inputs:
+    morph: morph_df
+  outputs:
+    json: exports/eda/morph__summary.json
+  runtime_cost: low
+  decision_hook: If feature ranges look off (e.g., tissue_coverage ~0 or ~1 for all), revisit feature extraction thresholds.
+  tags:
+  - image_quality
+  - distributions
+- name: morph__corr
+  purpose: Compute correlation matrix of morphology features to detect redundancy and unexpected coupling.
+  fn: morph_corr
+  inputs:
+    morph: morph_df
+  outputs:
+    json: exports/eda/morph__corr.json
+  runtime_cost: low
+  decision_hook: If strong correlations indicate leakage or redundant features, consider dropping/whitening before fusion.
+  tags:
+  - data_quality
+  - distributions
+  - sensitivity
+- name: morph__group_stats_by_label
+  purpose: Compare morphology feature means/stdevs across tissue labels to detect label-conditional artifacts (stain drift).
+  fn: morph_group_stats
+  inputs:
+    morph: morph_df
+    items: items_df
+  outputs:
+    json: exports/eda/morph__group_stats_by_label.json
+  runtime_cost: medium
+  decision_hook: If certain labels show extreme brightness/blur/tissue_coverage differences, inspect sampling and stain normalization.
+  tags:
+  - image_quality
+  - drift
+  - weak_supervision
+- name: morph__morph_error__hist
+  purpose: Histogram of morphology feature 'morph_error'.
+  fn: numeric_hist
+  inputs:
+    morph: morph_df
+  outputs:
+    json: exports/eda/morph__morph_error__hist.json
+  runtime_cost: low
+  decision_hook: If distribution is degenerate for 'morph_error', check extraction and consider clipping/transform.
+  tags:
+  - image_quality
+  - distributions
+  kwargs:
+    col: morph_error
+    bins: 30
+- name: morph__morph_error__outliers_iqr
+  purpose: IQR outlier rate for morphology feature 'morph_error'.
+  fn: outlier_iqr
+  inputs:
+    morph: morph_df
+  outputs:
+    json: exports/eda/morph__morph_error__outliers_iqr.json
+  runtime_cost: low
+  decision_hook: If outlier fraction is high for 'morph_error', identify problematic images and optionally exclude them.
+  tags:
+  - image_quality
+  - outliers
+  kwargs:
+    col: morph_error
+    k: 1.5
+- name: morph__mean_r__hist
+  purpose: Histogram of morphology feature 'mean_r'.
+  fn: numeric_hist
+  inputs:
+    morph: morph_df
+  outputs:
+    json: exports/eda/morph__mean_r__hist.json
+  runtime_cost: low
+  decision_hook: If distribution is degenerate for 'mean_r', check extraction and consider clipping/transform.
+  tags:
+  - image_quality
+  - distributions
+  kwargs:
+    col: mean_r
+    bins: 30
+- name: morph__mean_r__outliers_iqr
+  purpose: IQR outlier rate for morphology feature 'mean_r'.
+  fn: outlier_iqr
+  inputs:
+    morph: morph_df
+  outputs:
+    json: exports/eda/morph__mean_r__outliers_iqr.json
+  runtime_cost: low
+  decision_hook: If outlier fraction is high for 'mean_r', identify problematic images and optionally exclude them.
+  tags:
+  - image_quality
+  - outliers
+  kwargs:
+    col: mean_r
+    k: 1.5
+- name: morph__mean_g__hist
+  purpose: Histogram of morphology feature 'mean_g'.
+  fn: numeric_hist
+  inputs:
+    morph: morph_df
+  outputs:
+    json: exports/eda/morph__mean_g__hist.json
+  runtime_cost: low
+  decision_hook: If distribution is degenerate for 'mean_g', check extraction and consider clipping/transform.
+  tags:
+  - image_quality
+  - distributions
+  kwargs:
+    col: mean_g
+    bins: 30
+- name: morph__mean_g__outliers_iqr
+  purpose: IQR outlier rate for morphology feature 'mean_g'.
+  fn: outlier_iqr
+  inputs:
+    morph: morph_df
+  outputs:
+    json: exports/eda/morph__mean_g__outliers_iqr.json
+  runtime_cost: low
+  decision_hook: If outlier fraction is high for 'mean_g', identify problematic images and optionally exclude them.
+  tags:
+  - image_quality
+  - outliers
+  kwargs:
+    col: mean_g
+    k: 1.5
+- name: morph__mean_b__hist
+  purpose: Histogram of morphology feature 'mean_b'.
+  fn: numeric_hist
+  inputs:
+    morph: morph_df
+  outputs:
+    json: exports/eda/morph__mean_b__hist.json
+  runtime_cost: low
+  decision_hook: If distribution is degenerate for 'mean_b', check extraction and consider clipping/transform.
+  tags:
+  - image_quality
+  - distributions
+  kwargs:
+    col: mean_b
+    bins: 30
+- name: morph__mean_b__outliers_iqr
+  purpose: IQR outlier rate for morphology feature 'mean_b'.
+  fn: outlier_iqr
+  inputs:
+    morph: morph_df
+  outputs:
+    json: exports/eda/morph__mean_b__outliers_iqr.json
+  runtime_cost: low
+  decision_hook: If outlier fraction is high for 'mean_b', identify problematic images and optionally exclude them.
+  tags:
+  - image_quality
+  - outliers
+  kwargs:
+    col: mean_b
+    k: 1.5
+- name: morph__std_r__hist
+  purpose: Histogram of morphology feature 'std_r'.
+  fn: numeric_hist
+  inputs:
+    morph: morph_df
+  outputs:
+    json: exports/eda/morph__std_r__hist.json
+  runtime_cost: low
+  decision_hook: If distribution is degenerate for 'std_r', check extraction and consider clipping/transform.
+  tags:
+  - image_quality
+  - distributions
+  kwargs:
+    col: std_r
+    bins: 30
+- name: morph__std_r__outliers_iqr
+  purpose: IQR outlier rate for morphology feature 'std_r'.
+  fn: outlier_iqr
+  inputs:
+    morph: morph_df
+  outputs:
+    json: exports/eda/morph__std_r__outliers_iqr.json
+  runtime_cost: low
+  decision_hook: If outlier fraction is high for 'std_r', identify problematic images and optionally exclude them.
+  tags:
+  - image_quality
+  - outliers
+  kwargs:
+    col: std_r
+    k: 1.5
+- name: morph__std_g__hist
+  purpose: Histogram of morphology feature 'std_g'.
+  fn: numeric_hist
+  inputs:
+    morph: morph_df
+  outputs:
+    json: exports/eda/morph__std_g__hist.json
+  runtime_cost: low
+  decision_hook: If distribution is degenerate for 'std_g', check extraction and consider clipping/transform.
+  tags:
+  - image_quality
+  - distributions
+  kwargs:
+    col: std_g
+    bins: 30
+- name: morph__std_g__outliers_iqr
+  purpose: IQR outlier rate for morphology feature 'std_g'.
+  fn: outlier_iqr
+  inputs:
+    morph: morph_df
+  outputs:
+    json: exports/eda/morph__std_g__outliers_iqr.json
+  runtime_cost: low
+  decision_hook: If outlier fraction is high for 'std_g', identify problematic images and optionally exclude them.
+  tags:
+  - image_quality
+  - outliers
+  kwargs:
+    col: std_g
+    k: 1.5
+- name: morph__std_b__hist
+  purpose: Histogram of morphology feature 'std_b'.
+  fn: numeric_hist
+  inputs:
+    morph: morph_df
+  outputs:
+    json: exports/eda/morph__std_b__hist.json
+  runtime_cost: low
+  decision_hook: If distribution is degenerate for 'std_b', check extraction and consider clipping/transform.
+  tags:
+  - image_quality
+  - distributions
+  kwargs:
+    col: std_b
+    bins: 30
+- name: morph__std_b__outliers_iqr
+  purpose: IQR outlier rate for morphology feature 'std_b'.
+  fn: outlier_iqr
+  inputs:
+    morph: morph_df
+  outputs:
+    json: exports/eda/morph__std_b__outliers_iqr.json
+  runtime_cost: low
+  decision_hook: If outlier fraction is high for 'std_b', identify problematic images and optionally exclude them.
+  tags:
+  - image_quality
+  - outliers
+  kwargs:
+    col: std_b
+    k: 1.5
+- name: morph__mean_gray__hist
+  purpose: Histogram of morphology feature 'mean_gray'.
+  fn: numeric_hist
+  inputs:
+    morph: morph_df
+  outputs:
+    json: exports/eda/morph__mean_gray__hist.json
+  runtime_cost: low
+  decision_hook: If distribution is degenerate for 'mean_gray', check extraction and consider clipping/transform.
+  tags:
+  - image_quality
+  - distributions
+  kwargs:
+    col: mean_gray
+    bins: 30
+- name: morph__mean_gray__outliers_iqr
+  purpose: IQR outlier rate for morphology feature 'mean_gray'.
+  fn: outlier_iqr
+  inputs:
+    morph: morph_df
+  outputs:
+    json: exports/eda/morph__mean_gray__outliers_iqr.json
+  runtime_cost: low
+  decision_hook: If outlier fraction is high for 'mean_gray', identify problematic images and optionally exclude them.
+  tags:
+  - image_quality
+  - outliers
+  kwargs:
+    col: mean_gray
+    k: 1.5
+- name: morph__std_gray__hist
+  purpose: Histogram of morphology feature 'std_gray'.
+  fn: numeric_hist
+  inputs:
+    morph: morph_df
+  outputs:
+    json: exports/eda/morph__std_gray__hist.json
+  runtime_cost: low
+  decision_hook: If distribution is degenerate for 'std_gray', check extraction and consider clipping/transform.
+  tags:
+  - image_quality
+  - distributions
+  kwargs:
+    col: std_gray
+    bins: 30
+- name: morph__std_gray__outliers_iqr
+  purpose: IQR outlier rate for morphology feature 'std_gray'.
+  fn: outlier_iqr
+  inputs:
+    morph: morph_df
+  outputs:
+    json: exports/eda/morph__std_gray__outliers_iqr.json
+  runtime_cost: low
+  decision_hook: If outlier fraction is high for 'std_gray', identify problematic images and optionally exclude them.
+  tags:
+  - image_quality
+  - outliers
+  kwargs:
+    col: std_gray
+    k: 1.5
+- name: morph__tissue_coverage__hist
+  purpose: Histogram of morphology feature 'tissue_coverage'.
+  fn: numeric_hist
+  inputs:
+    morph: morph_df
+  outputs:
+    json: exports/eda/morph__tissue_coverage__hist.json
+  runtime_cost: low
+  decision_hook: If distribution is degenerate for 'tissue_coverage', check extraction and consider clipping/transform.
+  tags:
+  - image_quality
+  - distributions
+  kwargs:
+    col: tissue_coverage
+    bins: 30
+- name: morph__tissue_coverage__outliers_iqr
+  purpose: IQR outlier rate for morphology feature 'tissue_coverage'.
+  fn: outlier_iqr
+  inputs:
+    morph: morph_df
+  outputs:
+    json: exports/eda/morph__tissue_coverage__outliers_iqr.json
+  runtime_cost: low
+  decision_hook: If outlier fraction is high for 'tissue_coverage', identify problematic images and optionally exclude them.
+  tags:
+  - image_quality
+  - outliers
+  kwargs:
+    col: tissue_coverage
+    k: 1.5
+- name: morph__blur_var_lap__hist
+  purpose: Histogram of morphology feature 'blur_var_lap'.
+  fn: numeric_hist
+  inputs:
+    morph: morph_df
+  outputs:
+    json: exports/eda/morph__blur_var_lap__hist.json
+  runtime_cost: low
+  decision_hook: If distribution is degenerate for 'blur_var_lap', check extraction and consider clipping/transform.
+  tags:
+  - image_quality
+  - distributions
+  kwargs:
+    col: blur_var_lap
+    bins: 30
+- name: morph__blur_var_lap__outliers_iqr
+  purpose: IQR outlier rate for morphology feature 'blur_var_lap'.
+  fn: outlier_iqr
+  inputs:
+    morph: morph_df
+  outputs:
+    json: exports/eda/morph__blur_var_lap__outliers_iqr.json
+  runtime_cost: low
+  decision_hook: If outlier fraction is high for 'blur_var_lap', identify problematic images and optionally exclude them.
+  tags:
+  - image_quality
+  - outliers
+  kwargs:
+    col: blur_var_lap
+    k: 1.5
+- name: morph__sat_mean__hist
+  purpose: Histogram of morphology feature 'sat_mean'.
+  fn: numeric_hist
+  inputs:
+    morph: morph_df
+  outputs:
+    json: exports/eda/morph__sat_mean__hist.json
+  runtime_cost: low
+  decision_hook: If distribution is degenerate for 'sat_mean', check extraction and consider clipping/transform.
+  tags:
+  - image_quality
+  - distributions
+  kwargs:
+    col: sat_mean
+    bins: 30
+- name: morph__sat_mean__outliers_iqr
+  purpose: IQR outlier rate for morphology feature 'sat_mean'.
+  fn: outlier_iqr
+  inputs:
+    morph: morph_df
+  outputs:
+    json: exports/eda/morph__sat_mean__outliers_iqr.json
+  runtime_cost: low
+  decision_hook: If outlier fraction is high for 'sat_mean', identify problematic images and optionally exclude them.
+  tags:
+  - image_quality
+  - outliers
+  kwargs:
+    col: sat_mean
+    k: 1.5
+- name: morph__sat_std__hist
+  purpose: Histogram of morphology feature 'sat_std'.
+  fn: numeric_hist
+  inputs:
+    morph: morph_df
+  outputs:
+    json: exports/eda/morph__sat_std__hist.json
+  runtime_cost: low
+  decision_hook: If distribution is degenerate for 'sat_std', check extraction and consider clipping/transform.
+  tags:
+  - image_quality
+  - distributions
+  kwargs:
+    col: sat_std
+    bins: 30
+- name: morph__sat_std__outliers_iqr
+  purpose: IQR outlier rate for morphology feature 'sat_std'.
+  fn: outlier_iqr
+  inputs:
+    morph: morph_df
+  outputs:
+    json: exports/eda/morph__sat_std__outliers_iqr.json
+  runtime_cost: low
+  decision_hook: If outlier fraction is high for 'sat_std', identify problematic images and optionally exclude them.
+  tags:
+  - image_quality
+  - outliers
+  kwargs:
+    col: sat_std
+    k: 1.5
+- name: morph__width__hist
+  purpose: Histogram of morphology feature 'width'.
+  fn: numeric_hist
+  inputs:
+    morph: morph_df
+  outputs:
+    json: exports/eda/morph__width__hist.json
+  runtime_cost: low
+  decision_hook: If distribution is degenerate for 'width', check extraction and consider clipping/transform.
+  tags:
+  - image_quality
+  - distributions
+  kwargs:
+    col: width
+    bins: 30
+- name: morph__width__outliers_iqr
+  purpose: IQR outlier rate for morphology feature 'width'.
+  fn: outlier_iqr
+  inputs:
+    morph: morph_df
+  outputs:
+    json: exports/eda/morph__width__outliers_iqr.json
+  runtime_cost: low
+  decision_hook: If outlier fraction is high for 'width', identify problematic images and optionally exclude them.
+  tags:
+  - image_quality
+  - outliers
+  kwargs:
+    col: width
+    k: 1.5
+- name: morph__height__hist
+  purpose: Histogram of morphology feature 'height'.
+  fn: numeric_hist
+  inputs:
+    morph: morph_df
+  outputs:
+    json: exports/eda/morph__height__hist.json
+  runtime_cost: low
+  decision_hook: If distribution is degenerate for 'height', check extraction and consider clipping/transform.
+  tags:
+  - image_quality
+  - distributions
+  kwargs:
+    col: height
+    bins: 30
+- name: morph__height__outliers_iqr
+  purpose: IQR outlier rate for morphology feature 'height'.
+  fn: outlier_iqr
+  inputs:
+    morph: morph_df
+  outputs:
+    json: exports/eda/morph__height__outliers_iqr.json
+  runtime_cost: low
+  decision_hook: If outlier fraction is high for 'height', identify problematic images and optionally exclude them.
+  tags:
+  - image_quality
+  - outliers
+  kwargs:
+    col: height
+    k: 1.5
+- name: emb__image__norms
+  purpose: Check embedding L2 norm distribution for image embeddings (detect NaNs/collapse).
+  fn: embedding_norms
+  inputs:
+    emb: image_emb_df
+  outputs:
+    json: exports/eda/emb__image__norms.json
+  runtime_cost: low
+  decision_hook: If norms are ~0 or explode, re-check preprocessing/model; ensure no NaNs/inf in vectors.
+  tags:
+  - embedding_quality
+- name: emb__image__pca_variance
+  purpose: PCA explained variance curve for image embeddings (detect low intrinsic dimension / collapse).
+  fn: embedding_pca_variance
+  inputs:
+    emb: image_emb_df
+  outputs:
+    json: exports/eda/emb__image__pca_variance.json
+  runtime_cost: medium
+  decision_hook: If first PCs explain >90% variance, embeddings may be collapsed; try different model/normalization.
+  tags:
+  - embedding_quality
+  - drift
+  kwargs:
+    n_components: 50
+- name: emb__image__pairwise_cosine_stats
+  purpose: Cosine similarity stats on random pairs for image embeddings (drift/collapse check).
+  fn: embedding_pairwise_cosine_stats
+  inputs:
+    emb: image_emb_df
+  outputs:
+    json: exports/eda/emb__image__pairwise_cosine_stats.json
+  runtime_cost: medium
+  decision_hook: If cosine similarities cluster near 1.0, embeddings collapsed; if near 0.0, may be too noisy.
+  tags:
+  - embedding_quality
+  - drift
+  kwargs:
+    sample_pairs: 2000
+- name: emb__image__nn_distance_stats
+  purpose: Nearest-neighbor cosine distance stats for image embeddings (sanity + density).
+  fn: embedding_nn_distance_stats
+  inputs:
+    emb: image_emb_df
+  outputs:
+    json: exports/eda/emb__image__nn_distance_stats.json
+  runtime_cost: medium
+  decision_hook: If NN distances are extremely small or large, consider adjusting normalization/fusion weights.
+  tags:
+  - embedding_quality
+  - clustering_diagnostics
+  kwargs:
+    k: 5
+- name: emb__text__norms
+  purpose: Check embedding L2 norm distribution for text embeddings (detect NaNs/collapse).
+  fn: embedding_norms
+  inputs:
+    emb: text_emb_df
+  outputs:
+    json: exports/eda/emb__text__norms.json
+  runtime_cost: low
+  decision_hook: If norms are ~0 or explode, re-check preprocessing/model; ensure no NaNs/inf in vectors.
+  tags:
+  - embedding_quality
+- name: emb__text__pca_variance
+  purpose: PCA explained variance curve for text embeddings (detect low intrinsic dimension / collapse).
+  fn: embedding_pca_variance
+  inputs:
+    emb: text_emb_df
+  outputs:
+    json: exports/eda/emb__text__pca_variance.json
+  runtime_cost: medium
+  decision_hook: If first PCs explain >90% variance, embeddings may be collapsed; try different model/normalization.
+  tags:
+  - embedding_quality
+  - drift
+  kwargs:
+    n_components: 50
+- name: emb__text__pairwise_cosine_stats
+  purpose: Cosine similarity stats on random pairs for text embeddings (drift/collapse check).
+  fn: embedding_pairwise_cosine_stats
+  inputs:
+    emb: text_emb_df
+  outputs:
+    json: exports/eda/emb__text__pairwise_cosine_stats.json
+  runtime_cost: medium
+  decision_hook: If cosine similarities cluster near 1.0, embeddings collapsed; if near 0.0, may be too noisy.
+  tags:
+  - embedding_quality
+  - drift
+  kwargs:
+    sample_pairs: 2000
+- name: emb__text__nn_distance_stats
+  purpose: Nearest-neighbor cosine distance stats for text embeddings (sanity + density).
+  fn: embedding_nn_distance_stats
+  inputs:
+    emb: text_emb_df
+  outputs:
+    json: exports/eda/emb__text__nn_distance_stats.json
+  runtime_cost: medium
+  decision_hook: If NN distances are extremely small or large, consider adjusting normalization/fusion weights.
+  tags:
+  - embedding_quality
+  - clustering_diagnostics
+  kwargs:
+    k: 5
+- name: emb__morphology__norms
+  purpose: Check embedding L2 norm distribution for morphology embeddings (detect NaNs/collapse).
+  fn: embedding_norms
+  inputs:
+    emb: morph_emb_df
+  outputs:
+    json: exports/eda/emb__morphology__norms.json
+  runtime_cost: low
+  decision_hook: If norms are ~0 or explode, re-check preprocessing/model; ensure no NaNs/inf in vectors.
+  tags:
+  - embedding_quality
+- name: emb__morphology__pca_variance
+  purpose: PCA explained variance curve for morphology embeddings (detect low intrinsic dimension / collapse).
+  fn: embedding_pca_variance
+  inputs:
+    emb: morph_emb_df
+  outputs:
+    json: exports/eda/emb__morphology__pca_variance.json
+  runtime_cost: medium
+  decision_hook: If first PCs explain >90% variance, embeddings may be collapsed; try different model/normalization.
+  tags:
+  - embedding_quality
+  - drift
+  kwargs:
+    n_components: 50
+- name: emb__morphology__pairwise_cosine_stats
+  purpose: Cosine similarity stats on random pairs for morphology embeddings (drift/collapse check).
+  fn: embedding_pairwise_cosine_stats
+  inputs:
+    emb: morph_emb_df
+  outputs:
+    json: exports/eda/emb__morphology__pairwise_cosine_stats.json
+  runtime_cost: medium
+  decision_hook: If cosine similarities cluster near 1.0, embeddings collapsed; if near 0.0, may be too noisy.
+  tags:
+  - embedding_quality
+  - drift
+  kwargs:
+    sample_pairs: 2000
+- name: emb__morphology__nn_distance_stats
+  purpose: Nearest-neighbor cosine distance stats for morphology embeddings (sanity + density).
+  fn: embedding_nn_distance_stats
+  inputs:
+    emb: morph_emb_df
+  outputs:
+    json: exports/eda/emb__morphology__nn_distance_stats.json
+  runtime_cost: medium
+  decision_hook: If NN distances are extremely small or large, consider adjusting normalization/fusion weights.
+  tags:
+  - embedding_quality
+  - clustering_diagnostics
+  kwargs:
+    k: 5
+- name: emb__fused__norms
+  purpose: Check embedding L2 norm distribution for fused embeddings (detect NaNs/collapse).
+  fn: embedding_norms
+  inputs:
+    emb: fused_emb_df
+  outputs:
+    json: exports/eda/emb__fused__norms.json
+  runtime_cost: low
+  decision_hook: If norms are ~0 or explode, re-check preprocessing/model; ensure no NaNs/inf in vectors.
+  tags:
+  - embedding_quality
+- name: emb__fused__pca_variance
+  purpose: PCA explained variance curve for fused embeddings (detect low intrinsic dimension / collapse).
+  fn: embedding_pca_variance
+  inputs:
+    emb: fused_emb_df
+  outputs:
+    json: exports/eda/emb__fused__pca_variance.json
+  runtime_cost: medium
+  decision_hook: If first PCs explain >90% variance, embeddings may be collapsed; try different model/normalization.
+  tags:
+  - embedding_quality
+  - drift
+  kwargs:
+    n_components: 50
+- name: emb__fused__pairwise_cosine_stats
+  purpose: Cosine similarity stats on random pairs for fused embeddings (drift/collapse check).
+  fn: embedding_pairwise_cosine_stats
+  inputs:
+    emb: fused_emb_df
+  outputs:
+    json: exports/eda/emb__fused__pairwise_cosine_stats.json
+  runtime_cost: medium
+  decision_hook: If cosine similarities cluster near 1.0, embeddings collapsed; if near 0.0, may be too noisy.
+  tags:
+  - embedding_quality
+  - drift
+  kwargs:
+    sample_pairs: 2000
+- name: emb__fused__nn_distance_stats
+  purpose: Nearest-neighbor cosine distance stats for fused embeddings (sanity + density).
+  fn: embedding_nn_distance_stats
+  inputs:
+    emb: fused_emb_df
+  outputs:
+    json: exports/eda/emb__fused__nn_distance_stats.json
+  runtime_cost: medium
+  decision_hook: If NN distances are extremely small or large, consider adjusting normalization/fusion weights.
+  tags:
+  - embedding_quality
+  - clustering_diagnostics
+  kwargs:
+    k: 5
+- name: cluster__size_distribution
+  purpose: Cluster size distribution (detect too many tiny clusters or one giant cluster).
+  fn: cluster_size_distribution
+  inputs:
+    clusters: clusters_df
+  outputs:
+    json: exports/eda/cluster__size_distribution.json
+  runtime_cost: low
+  decision_hook: If many tiny clusters, tune clustering hyperparams; if one giant cluster, embeddings may be uninformative.
+  tags:
+  - clustering_diagnostics
+- name: cluster__noise_ratio
+  purpose: Noise/outlier ratio (cluster_id == -1) for density-based clustering.
+  fn: cluster_noise_ratio
+  inputs:
+    clusters: clusters_df
+  outputs:
+    json: exports/eda/cluster__noise_ratio.json
+  runtime_cost: low
+  decision_hook: If noise ratio is very high, relax min_cluster_size or fallback to KMeans baseline.
+  tags:
+  - clustering_diagnostics
+- name: cluster__label_purity
+  purpose: Estimate label purity within clusters (weak proxy for meaningful structure).
+  fn: cluster_label_purity
+  inputs:
+    items: items_df
+    clusters: clusters_df
+  outputs:
+    json: exports/eda/cluster__label_purity.json
+  runtime_cost: medium
+  decision_hook: If purity is low, clusters may be driven by artifacts; consider stain normalization or better embeddings.
+  tags:
+  - clustering_diagnostics
+  - weak_supervision
+- name: cluster__metrics
+  purpose: Compute silhouette/CHI/DBI clustering metrics (excluding noise label -1).
+  fn: clustering_metrics
+  inputs:
+    fused: fused_emb_df
+    clusters: clusters_df
+  outputs:
+    json: exports/eda/cluster__metrics.json
+  runtime_cost: medium
+  decision_hook: If metrics are poor, iterate on fusion weights, dimensionality reduction, or clustering params.
+  tags:
+  - clustering_diagnostics
+- name: morph__tissue_coverage__hist_bins10
+  purpose: Histogram of 'tissue_coverage' with bins=10 (sensitivity to binning).
+  fn: numeric_hist
+  inputs:
+    morph: morph_df
+  outputs:
+    json: exports/eda/morph__tissue_coverage__hist_bins10.json
+  runtime_cost: low
+  decision_hook: If shape changes dramatically with bins=10, inspect for multimodality/outliers and consider robust transforms.
+  tags:
+  - image_quality
+  - distributions
+  - sensitivity
+  kwargs:
+    col: tissue_coverage
+    bins: 10
+- name: morph__tissue_coverage__hist_bins100
+  purpose: Histogram of 'tissue_coverage' with bins=100 (sensitivity to binning).
+  fn: numeric_hist
+  inputs:
+    morph: morph_df
+  outputs:
+    json: exports/eda/morph__tissue_coverage__hist_bins100.json
+  runtime_cost: low
+  decision_hook: If shape changes dramatically with bins=100, inspect for multimodality/outliers and consider robust transforms.
+  tags:
+  - image_quality
+  - distributions
+  - sensitivity
+  kwargs:
+    col: tissue_coverage
+    bins: 100
+- name: morph__blur_var_lap__hist_bins10
+  purpose: Histogram of 'blur_var_lap' with bins=10 (sensitivity to binning).
+  fn: numeric_hist
+  inputs:
+    morph: morph_df
+  outputs:
+    json: exports/eda/morph__blur_var_lap__hist_bins10.json
+  runtime_cost: low
+  decision_hook: If shape changes dramatically with bins=10, inspect for multimodality/outliers and consider robust transforms.
+  tags:
+  - image_quality
+  - distributions
+  - sensitivity
+  kwargs:
+    col: blur_var_lap
+    bins: 10
+- name: morph__blur_var_lap__hist_bins100
+  purpose: Histogram of 'blur_var_lap' with bins=100 (sensitivity to binning).
+  fn: numeric_hist
+  inputs:
+    morph: morph_df
+  outputs:
+    json: exports/eda/morph__blur_var_lap__hist_bins100.json
+  runtime_cost: low
+  decision_hook: If shape changes dramatically with bins=100, inspect for multimodality/outliers and consider robust transforms.
+  tags:
+  - image_quality
+  - distributions
+  - sensitivity
+  kwargs:
+    col: blur_var_lap
+    bins: 100
+- name: morph__mean_gray__hist_bins10
+  purpose: Histogram of 'mean_gray' with bins=10 (sensitivity to binning).
+  fn: numeric_hist
+  inputs:
+    morph: morph_df
+  outputs:
+    json: exports/eda/morph__mean_gray__hist_bins10.json
+  runtime_cost: low
+  decision_hook: If shape changes dramatically with bins=10, inspect for multimodality/outliers and consider robust transforms.
+  tags:
+  - image_quality
+  - distributions
+  - sensitivity
+  kwargs:
+    col: mean_gray
+    bins: 10
+- name: morph__mean_gray__hist_bins100
+  purpose: Histogram of 'mean_gray' with bins=100 (sensitivity to binning).
+  fn: numeric_hist
+  inputs:
+    morph: morph_df
+  outputs:
+    json: exports/eda/morph__mean_gray__hist_bins100.json
+  runtime_cost: low
+  decision_hook: If shape changes dramatically with bins=100, inspect for multimodality/outliers and consider robust transforms.
+  tags:
+  - image_quality
+  - distributions
+  - sensitivity
+  kwargs:
+    col: mean_gray
+    bins: 100
+- name: morph__sat_mean__hist_bins10
+  purpose: Histogram of 'sat_mean' with bins=10 (sensitivity to binning).
+  fn: numeric_hist
+  inputs:
+    morph: morph_df
+  outputs:
+    json: exports/eda/morph__sat_mean__hist_bins10.json
+  runtime_cost: low
+  decision_hook: If shape changes dramatically with bins=10, inspect for multimodality/outliers and consider robust transforms.
+  tags:
+  - image_quality
+  - distributions
+  - sensitivity
+  kwargs:
+    col: sat_mean
+    bins: 10
+- name: morph__sat_mean__hist_bins100
+  purpose: Histogram of 'sat_mean' with bins=100 (sensitivity to binning).
+  fn: numeric_hist
+  inputs:
+    morph: morph_df
+  outputs:
+    json: exports/eda/morph__sat_mean__hist_bins100.json
+  runtime_cost: low
+  decision_hook: If shape changes dramatically with bins=100, inspect for multimodality/outliers and consider robust transforms.
+  tags:
+  - image_quality
+  - distributions
+  - sensitivity
+  kwargs:
+    col: sat_mean
+    bins: 100

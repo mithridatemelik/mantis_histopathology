@@ -1,0 +1,117 @@
+# Histopathology Cartography Pipeline Config (Colab-safe defaults)
+version: 1
+project:
+  name: histopathology_cartography
+  schema_version: 0.1.0
+  safe_mode: true           # SAFE_MODE=True: small samples, conservative memory, minimal risky installs
+  debug_level: 1            # 0..3 (higher = more logs)
+  allow_risky_installs: false
+  seed: 1337
+
+paths:
+  # We auto-resolve the project root by searching for this config and label_taxonomy.yaml.
+  drive_search_base: /content/drive/MyDrive/mit
+  log_dir: logs
+  checkpoints_dir: checkpoints
+  data_raw_dir: data_raw
+  data_staging_dir: data_staging
+  exports_dir: exports
+
+data:
+  mode: real                # real | dry_run
+  route: B                  # A=precomputed features (optional), B=raw patch images, C=segmentation+features
+  dataset_key: CRC_VAL_HE_7K
+  # Optional: stage multiple datasets in one run (multimodal experiments).
+  # If `dataset_keys` is provided, it takes precedence over `dataset_key`.
+  dataset_keys:
+    - CRC_VAL_HE_7K
+    - MEDMNIST_PATHMNIST
+    - HF_PCAM
+  split: val
+  download:
+    enable: true
+    verify_md5: true
+    allow_large: false      # set true to allow ~11.7GB downloads
+  force_reextract: false   # set true to re-extract staging even if marker exists
+
+  # SAFE_MODE sampling
+  max_items_safe: 512
+  max_items_full: null      # null = all extracted images
+
+embeddings:
+  image:
+    engine: torchvision_resnet50
+    batch_size_safe: 64
+    batch_size_full: 256
+    prefer_gpu: true
+  text:
+    engine: tfidf_svd
+    max_features: 8192
+    svd_dim: 128
+    # IMPORTANT: for many patch datasets the only "text" available is the label.
+    # Using label-in-text contaminates any "unsupervised" fusion/clustering/similarity.
+    #
+    # - use_text_modality=false is the safest default.
+    # - If enabled, prefer text_template_version=v2_no_label and verify
+    #   `n_unique_texts` is high enough to be meaningful.
+    use_text_modality: false
+    text_template_version: v2_no_label
+  morphology:
+    engine: simple_cv2
+  fusion:
+    strategy: concat_pca
+    target_dim: 256
+
+cartography:
+  reduce_2d_method: umap     # umap | tsne | pca  (umap uses optional dependency umap-learn)
+  umap:
+    n_neighbors: 15
+    min_dist: 0.10
+  # Clustering overhaul (2026-01): default pipeline = UMAP → HDBSCAN
+  #
+  # Notes:
+  # - UMAP should use cosine metric on the original (often normalized) embedding.
+  # - HDBSCAN is typically run with euclidean metric on the UMAP output.
+  # - We keep `clustering_method` for backwards compatibility, but notebooks now
+  #   prefer `clustering.default_pipeline` and `clustering_sweep`.
+  clustering_method: hdbscan # legacy: hdbscan (optional) | kmeans
+
+  clustering:
+    default_pipeline: umap_hdbscan
+    umap_n_components_for_clustering: 10
+    best_run:
+      # Demo target (soft): keep noise under ~40%.
+      max_noise_ratio: 0.40
+
+  clustering_sweep:
+    umap_n_neighbors: [10, 20, 50]
+    umap_min_dist: [0.0, 0.1, 0.3]
+    hdbscan_min_cluster_size: [5, 8, 10, 15]
+    hdbscan_min_samples: [null, 5, 10]
+
+  # Baseline that never outputs noise
+  kmeans:
+    k: 9
+    choose_k: labels_or_silhouette  # labels_or_silhouette | fixed
+  hdbscan:
+    min_cluster_size: 15           # legacy default
+  labeling:
+    method: label_distribution
+    top_terms: 8
+
+kg:
+  similarity_edges:
+    k: 5
+    min_sim: 0.25
+  exports:
+    parquet: true
+    rdf: true
+    neo4j_csv: true
+
+
+agentic:
+  # OpenAI Chat Completions model names are configurable here.
+  agent1_model: gpt-4o-mini
+  agent1_temperature: 0.2
+  agent2_model: gpt-4o-mini
+  agent2_temperature: 0.2

@@ -1,0 +1,16 @@
+# python
+__pycache__/
+*.pyc
+
+# notebooks
+.ipynb_checkpoints/
+
+# data and exports
+data_raw/
+data_staging/
+exports/**/*
+!exports/**/.gitkeep
+
+# local env
+.env
+.env.*

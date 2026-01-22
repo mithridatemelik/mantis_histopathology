@@ -1,0 +1,482 @@
+{
+  "Biological Tissue — Inflammatory/Reactive (Lymphocytes)": {
+    "cluster_name": "Biological Tissue Inflammatory/Reactive",
+    "cluster_definition": "Histopathology cluster characterized by: applicable, colorectal, hematolymphoid, infiltrate, infiltrate modifier, lymphocytes.",
+    "cluster_keywords": [
+      "applicable",
+      "colorectal",
+      "hematolymphoid",
+      "infiltrate",
+      "infiltrate modifier",
+      "lymphocytes",
+      "inflammatory reactive",
+      "inflammatory",
+      "modifier applicable",
+      "modifier"
+    ]
+  },
+  "Biological Tissue — Inflammatory/Reactive (Necrotic Debris)": {
+    "cluster_name": "Biological Tissue Inflammatory/Reactive — Extracellular Substance",
+    "cluster_definition": "Histopathology cluster characterized by: applicable, colorectal, debris, extracellular substance, extracellular, detritus necrosis.",
+    "cluster_keywords": [
+      "applicable",
+      "colorectal",
+      "debris",
+      "extracellular substance",
+      "extracellular",
+      "detritus necrosis",
+      "detritus",
+      "debris pattern",
+      "necrotic debris",
+      "necrotic"
+    ]
+  },
+  "Biological Tissue — Malignant/Invasive (Adenocarcinoma)": {
+    "cluster_name": "Biological Tissue Malignant/Invasive",
+    "cluster_definition": "Histopathology cluster characterized by: adenocarcinoma, adenocarcinoma pattern, carcinoma modifier, carcinoma, forming carcinoma, gland.",
+    "cluster_keywords": [
+      "adenocarcinoma",
+      "adenocarcinoma pattern",
+      "carcinoma modifier",
+      "carcinoma",
+      "forming carcinoma",
+      "gland",
+      "forming",
+      "epithelial",
+      "gland forming",
+      "grade"
+    ]
+  },
+  "Biological Tissue — Malignant/Invasive (Invasive Carcinoma)": {
+    "cluster_name": "Biological Tissue Malignant/Invasive — Epithelial",
+    "cluster_definition": "Histopathology cluster characterized by: invasive, carcinoma, invasive carcinoma, breast, grade, grade mock.",
+    "cluster_keywords": [
+      "invasive",
+      "carcinoma",
+      "invasive carcinoma",
+      "breast",
+      "grade",
+      "grade mock",
+      "carcinoma pattern",
+      "epithelial",
+      "malignant",
+      "modifier"
+    ]
+  },
+  "Biological Tissue — Malignant/Invasive (Squamous Cell Carcinoma)": {
+    "cluster_name": "Biological Tissue Malignant/Invasive — Squamous Cell Carcinoma",
+    "cluster_definition": "Histopathology cluster characterized by: squamous, carcinoma pattern, cell carcinoma, carcinoma, differentiation, differentiation modifier.",
+    "cluster_keywords": [
+      "squamous",
+      "carcinoma pattern",
+      "cell carcinoma",
+      "carcinoma",
+      "differentiation",
+      "differentiation modifier",
+      "grade",
+      "cell",
+      "grade mock",
+      "mock"
+    ]
+  },
+  "Biological Tissue — Normal/Benign (Adipose Tissue)": {
+    "cluster_name": "Biological Tissue Normal/Benign",
+    "cluster_definition": "Histopathology cluster characterized by: tissue, adipocyte, adipose, adipocyte rich, applicable, benign.",
+    "cluster_keywords": [
+      "tissue",
+      "adipocyte",
+      "adipose",
+      "adipocyte rich",
+      "applicable",
+      "benign",
+      "benign adipose",
+      "adipose tissue",
+      "normal",
+      "modifier applicable"
+    ]
+  },
+  "Biological Tissue — Normal/Benign (Benign Breast Lesion)": {
+    "cluster_name": "Biological Tissue Normal/Benign — Epithelial",
+    "cluster_definition": "Histopathology cluster characterized by: benign, breast, lesion, benign breast, breast lesion, epithelial.",
+    "cluster_keywords": [
+      "benign",
+      "breast",
+      "lesion",
+      "benign breast",
+      "breast lesion",
+      "epithelial",
+      "lesion pattern",
+      "benign benign",
+      "pattern",
+      "pattern benign"
+    ]
+  },
+  "Biological Tissue — Normal/Benign (Benign/Normal Tissue)": {
+    "cluster_name": "Biological Tissue Normal/Benign — Benign/Normal Tissue",
+    "cluster_definition": "Histopathology cluster characterized by: benign, normal, tissue, colorectal, benign parenchyma, benign normal.",
+    "cluster_keywords": [
+      "benign",
+      "normal",
+      "tissue",
+      "colorectal",
+      "benign parenchyma",
+      "benign normal",
+      "epithelial",
+      "benign benign",
+      "modifier",
+      "normal benign"
+    ]
+  },
+  "Biological Tissue — Normal/Benign (Cancer-Associated Stroma)": {
+    "cluster_name": "Biological Tissue Normal/Benign — Mesenchymal",
+    "cluster_definition": "Histopathology cluster characterized by: stroma, applicable, associated stroma, associated, benign cancer, colorectal.",
+    "cluster_keywords": [
+      "stroma",
+      "applicable",
+      "associated stroma",
+      "associated",
+      "benign cancer",
+      "colorectal",
+      "cancer associated",
+      "benign",
+      "fibroblast rich",
+      "fibroblast"
+    ]
+  },
+  "Biological Tissue — Normal/Benign (Normal Breast Tissue)": {
+    "cluster_name": "Biological Tissue Normal/Benign — Normal Breast Tissue",
+    "cluster_definition": "Histopathology cluster characterized by: normal, breast, tissue, benign normal, epithelial, ducts lobules.",
+    "cluster_keywords": [
+      "normal",
+      "breast",
+      "tissue",
+      "benign normal",
+      "epithelial",
+      "ducts lobules",
+      "ducts",
+      "applicable",
+      "lobules modifier",
+      "normal benign"
+    ]
+  },
+  "Biological Tissue — Normal/Benign (Normal Mucosa)": {
+    "cluster_name": "Biological Tissue Normal/Benign — Normal Mucosa",
+    "cluster_definition": "Histopathology cluster characterized by: normal, applicable, architecture modifier, architecture, benign normal, epithelial.",
+    "cluster_keywords": [
+      "normal",
+      "applicable",
+      "architecture modifier",
+      "architecture",
+      "benign normal",
+      "epithelial",
+      "crypt",
+      "benign",
+      "crypt architecture",
+      "modifier"
+    ]
+  },
+  "Biological Tissue — Pre-Malignant/In Situ (Carcinoma in situ)": {
+    "cluster_name": "Biological Tissue Pre-Malignant/In Situ",
+    "cluster_definition": "Histopathology cluster characterized by: situ, applicable, carcinoma, breast, epithelial, ducts modifier.",
+    "cluster_keywords": [
+      "situ",
+      "applicable",
+      "carcinoma",
+      "breast",
+      "epithelial",
+      "ducts modifier",
+      "ducts",
+      "carcinoma situ",
+      "modifier",
+      "modifier applicable"
+    ]
+  },
+  "Biological Tissue — Structural (Mucus)": {
+    "cluster_name": "Biological Tissue Structural",
+    "cluster_definition": "Histopathology cluster characterized by: extracellular, applicable, colorectal, extracellular mucin, modifier applicable, modifier.",
+    "cluster_keywords": [
+      "extracellular",
+      "applicable",
+      "colorectal",
+      "extracellular mucin",
+      "modifier applicable",
+      "modifier",
+      "extracellular substance",
+      "mucin",
+      "mucus pattern",
+      "mucus"
+    ]
+  },
+  "Biological Tissue — Structural (Smooth Muscle)": {
+    "cluster_name": "Biological Tissue Structural — Mesenchymal",
+    "cluster_definition": "Histopathology cluster characterized by: applicable, colorectal, modifier applicable, mesenchymal, modifier, muscularis.",
+    "cluster_keywords": [
+      "applicable",
+      "colorectal",
+      "modifier applicable",
+      "mesenchymal",
+      "modifier",
+      "muscularis",
+      "muscle pattern",
+      "muscle",
+      "muscularis modifier",
+      "pattern"
+    ]
+  },
+  "Non-Tissue / Artifact — Not Applicable (Background / Empty Slide)": {
+    "cluster_name": "Non-Tissue / Artifact Not Applicable",
+    "cluster_definition": "Histopathology cluster characterized by: applicable, tissue, artifact, applicable background, colorectal, background slide.",
+    "cluster_keywords": [
+      "applicable",
+      "tissue",
+      "artifact",
+      "applicable background",
+      "colorectal",
+      "background slide",
+      "modifier applicable",
+      "background",
+      "pattern tissue",
+      "pattern"
+    ]
+  },
+  "Ontology Anchor — All States (Artifact (Superclass Anchor))": {
+    "cluster_name": "Ontology Anchor All States",
+    "cluster_definition": "Histopathology cluster characterized by: anchor, artifact, anchor artifact, ontology, ontology anchor, anchor superclass.",
+    "cluster_keywords": [
+      "anchor",
+      "artifact",
+      "anchor artifact",
+      "ontology",
+      "ontology anchor",
+      "anchor superclass",
+      "superclass",
+      "superclass artifact",
+      "lineage organs",
+      "lineage"
+    ]
+  },
+  "Ontology Anchor — All States (Artifact in Colorectal (Anchor))": {
+    "cluster_name": "Ontology Anchor All States — Artifact",
+    "cluster_definition": "Histopathology cluster characterized by: anchor, artifact, colorectal, anchor artifact, ontology anchor, ontology.",
+    "cluster_keywords": [
+      "anchor",
+      "artifact",
+      "colorectal",
+      "anchor artifact",
+      "ontology anchor",
+      "ontology",
+      "lineage colorectal",
+      "lineage",
+      "colorectal artifact",
+      "anchor colorectal"
+    ]
+  },
+  "Ontology Anchor — All States (Breast (Organ Anchor))": {
+    "cluster_name": "Ontology Anchor All States — Anchor",
+    "cluster_definition": "Histopathology cluster characterized by: anchor, breast, organ breast, organ, anchor organ, ontology anchor.",
+    "cluster_keywords": [
+      "anchor",
+      "breast",
+      "organ breast",
+      "organ",
+      "anchor organ",
+      "ontology anchor",
+      "ontology",
+      "anchor node",
+      "node",
+      "node organ"
+    ]
+  },
+  "Ontology Anchor — All States (Colorectal (Organ Anchor))": {
+    "cluster_name": "Ontology Anchor All States — Colorectal (Organ Anchor)",
+    "cluster_definition": "Histopathology cluster characterized by: anchor, colorectal, organ colorectal, organ, anchor organ, ontology anchor.",
+    "cluster_keywords": [
+      "anchor",
+      "colorectal",
+      "organ colorectal",
+      "organ",
+      "anchor organ",
+      "ontology anchor",
+      "ontology",
+      "anchor node",
+      "node",
+      "node organ"
+    ]
+  },
+  "Ontology Anchor — All States (Epithelial (Superclass Anchor))": {
+    "cluster_name": "Ontology Anchor All States — Epithelial",
+    "cluster_definition": "Histopathology cluster characterized by: anchor, epithelial, anchor epithelial, ontology, ontology anchor, anchor superclass.",
+    "cluster_keywords": [
+      "anchor",
+      "epithelial",
+      "anchor epithelial",
+      "ontology",
+      "ontology anchor",
+      "anchor superclass",
+      "superclass",
+      "superclass epithelial",
+      "lineage organs",
+      "lineage"
+    ]
+  },
+  "Ontology Anchor — All States (Epithelial in Breast (Anchor))": {
+    "cluster_name": "Ontology Anchor All States — Epithelial in Breast (Anchor)",
+    "cluster_definition": "Histopathology cluster characterized by: anchor, breast, epithelial, anchor epithelial, ontology anchor, ontology.",
+    "cluster_keywords": [
+      "anchor",
+      "breast",
+      "epithelial",
+      "anchor epithelial",
+      "ontology anchor",
+      "ontology",
+      "lineage breast",
+      "lineage",
+      "breast epithelial",
+      "anchor breast"
+    ]
+  },
+  "Ontology Anchor — All States (Epithelial in Colorectal (Anchor))": {
+    "cluster_name": "Ontology Anchor All States — Epithelial in Colorectal (Anchor)",
+    "cluster_definition": "Histopathology cluster characterized by: anchor, colorectal, epithelial, anchor epithelial, ontology anchor, ontology.",
+    "cluster_keywords": [
+      "anchor",
+      "colorectal",
+      "epithelial",
+      "anchor epithelial",
+      "ontology anchor",
+      "ontology",
+      "lineage colorectal",
+      "lineage",
+      "colorectal epithelial",
+      "anchor colorectal"
+    ]
+  },
+  "Ontology Anchor — All States (Epithelial in Lung (Anchor))": {
+    "cluster_name": "Ontology Anchor All States — Epithelial in Lung (Anchor)",
+    "cluster_definition": "Histopathology cluster characterized by: anchor, epithelial, lung, anchor epithelial, lineage, ontology anchor.",
+    "cluster_keywords": [
+      "anchor",
+      "epithelial",
+      "lung",
+      "anchor epithelial",
+      "lineage",
+      "ontology anchor",
+      "ontology",
+      "lineage lung",
+      "anchor lung",
+      "lung epithelial"
+    ]
+  },
+  "Ontology Anchor — All States (Extracellular Substance (Superclass Anchor))": {
+    "cluster_name": "Ontology Anchor All States — Extracellular Substance",
+    "cluster_definition": "Histopathology cluster characterized by: anchor, extracellular, extracellular substance, substance, ontology, anchor extracellular.",
+    "cluster_keywords": [
+      "anchor",
+      "extracellular",
+      "extracellular substance",
+      "substance",
+      "ontology",
+      "anchor extracellular",
+      "ontology anchor",
+      "anchor superclass",
+      "superclass extracellular",
+      "superclass"
+    ]
+  },
+  "Ontology Anchor — All States (Extracellular Substance in Colorectal (Anchor))": {
+    "cluster_name": "Ontology Anchor All States — Extracellular Substance in Colorectal (Anchor)",
+    "cluster_definition": "Histopathology cluster characterized by: anchor, colorectal, extracellular substance, extracellular, substance, lineage.",
+    "cluster_keywords": [
+      "anchor",
+      "colorectal",
+      "extracellular substance",
+      "extracellular",
+      "substance",
+      "lineage",
+      "lineage colorectal",
+      "anchor extracellular",
+      "ontology",
+      "ontology anchor"
+    ]
+  },
+  "Ontology Anchor — All States (Hematolymphoid (Superclass Anchor))": {
+    "cluster_name": "Ontology Anchor All States — Hematolymphoid",
+    "cluster_definition": "Histopathology cluster characterized by: anchor, hematolymphoid, anchor hematolymphoid, ontology, ontology anchor, anchor superclass.",
+    "cluster_keywords": [
+      "anchor",
+      "hematolymphoid",
+      "anchor hematolymphoid",
+      "ontology",
+      "ontology anchor",
+      "anchor superclass",
+      "superclass",
+      "superclass hematolymphoid",
+      "lineage organs",
+      "lineage"
+    ]
+  },
+  "Ontology Anchor — All States (Hematolymphoid in Colorectal (Anchor))": {
+    "cluster_name": "Ontology Anchor All States — Hematolymphoid in Colorectal (Anchor)",
+    "cluster_definition": "Histopathology cluster characterized by: anchor, colorectal, hematolymphoid, anchor hematolymphoid, ontology anchor, ontology.",
+    "cluster_keywords": [
+      "anchor",
+      "colorectal",
+      "hematolymphoid",
+      "anchor hematolymphoid",
+      "ontology anchor",
+      "ontology",
+      "lineage colorectal",
+      "lineage",
+      "colorectal hematolymphoid",
+      "anchor colorectal"
+    ]
+  },
+  "Ontology Anchor — All States (Lung (Organ Anchor))": {
+    "cluster_name": "Ontology Anchor All States — Lung (Organ Anchor)",
+    "cluster_definition": "Histopathology cluster characterized by: anchor, lung, organ lung, organ, anchor organ, ontology anchor.",
+    "cluster_keywords": [
+      "anchor",
+      "lung",
+      "organ lung",
+      "organ",
+      "anchor organ",
+      "ontology anchor",
+      "ontology",
+      "anchor node",
+      "node",
+      "node organ"
+    ]
+  },
+  "Ontology Anchor — All States (Mesenchymal (Superclass Anchor))": {
+    "cluster_name": "Ontology Anchor All States — Mesenchymal",
+    "cluster_definition": "Histopathology cluster characterized by: anchor, mesenchymal, ontology, anchor mesenchymal, ontology anchor, anchor superclass.",
+    "cluster_keywords": [
+      "anchor",
+      "mesenchymal",
+      "ontology",
+      "anchor mesenchymal",
+      "ontology anchor",
+      "anchor superclass",
+      "superclass",
+      "superclass mesenchymal",
+      "mesenchymal tissue",
+      "lineage organs"
+    ]
+  },
+  "Ontology Anchor — All States (Mesenchymal in Colorectal (Anchor))": {
+    "cluster_name": "Ontology Anchor All States — Mesenchymal in Colorectal (Anchor)",
+    "cluster_definition": "Histopathology cluster characterized by: anchor, colorectal, mesenchymal, anchor mesenchymal, lineage colorectal, lineage.",
+    "cluster_keywords": [
+      "anchor",
+      "colorectal",
+      "mesenchymal",
+      "anchor mesenchymal",
+      "lineage colorectal",
+      "lineage",
+      "ontology",
+      "ontology anchor",
+      "colorectal mesenchymal",
+      "anchor colorectal"
+    ]
+  }
+}

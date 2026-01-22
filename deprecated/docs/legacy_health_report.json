@@ -1,0 +1,118 @@
+{
+  "file": "/mnt/data/mantis_unified_atlas_multimodal_v3.csv",
+  "n_rows": 5610,
+  "n_cols": 48,
+  "columns": [
+    "id",
+    "title",
+    "text",
+    "semantic_text",
+    "vector",
+    "vector_str",
+    "x",
+    "y",
+    "cluster",
+    "ontology_path",
+    "cluster_L1",
+    "cluster_L2",
+    "cluster_L3",
+    "cluster_L4",
+    "cluster_L5",
+    "cluster_L6",
+    "cluster_L7",
+    "nn1",
+    "nn_dist1",
+    "nn2",
+    "nn_dist2",
+    "nn3",
+    "nn_dist3",
+    "nn4",
+    "nn_dist4",
+    "nn5",
+    "nn_dist5",
+    "nn6",
+    "nn_dist6",
+    "nn7",
+    "nn_dist7",
+    "nn8",
+    "nn_dist8",
+    "nn9",
+    "nn_dist9",
+    "nn10",
+    "nn_dist10",
+    "nn11",
+    "nn_dist11",
+    "nn12",
+    "nn_dist12",
+    "dataset_key",
+    "raw_label",
+    "label",
+    "width",
+    "height",
+    "mpp",
+    "metadata"
+  ],
+  "vector_col": "vector",
+  "vector_dim_unique": [
+    512
+  ],
+  "vector_dim_counts": {
+    "512": 5610
+  },
+  "vector_has_inconsistent_dims": false,
+  "vector_sample_nan": 0,
+  "vector_sample_inf": 0,
+  "title_unique": 48,
+  "title_duplicates": 5562,
+  "dataset_key_counts": {
+    "CRC_VAL_HE_7K": 1600,
+    "MEDMNIST_PATHMNIST": 1600,
+    "HF_LC25000": 800,
+    "HF_BACH": 800,
+    "HF_BREAKHIS_RCL_7500": 800,
+    "ANCHOR": 10
+  },
+  "hierarchy_cols_found": [
+    "cluster_L1",
+    "cluster_L2",
+    "cluster_L3",
+    "cluster_L4",
+    "cluster_L5",
+    "cluster_L6",
+    "cluster_L7"
+  ],
+  "hierarchy_bad_token_counts": {
+    "cluster_L2": {
+      "Unknown": 1890
+    },
+    "cluster_L4": {
+      "Unknown": 1889
+    },
+    "cluster_L6": {
+      "Unspecified": 1889
+    },
+    "cluster_L7": {
+      "Unspecified": 4111
+    }
+  },
+  "suffix_multi_dataset_count": 1600,
+  "knn": {
+    "k": 12,
+    "n_edges": 46626,
+    "n_connected_components": 21,
+    "component_sizes_top10": [
+      3377,
+      273,
+      217,
+      177,
+      164,
+      102,
+      101,
+      101,
+      90,
+      89
+    ],
+    "cross_dataset_edges": 2063,
+    "cross_dataset_edge_ratio": 0.044245699824132456
+  }
+}

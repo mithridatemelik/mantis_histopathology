@@ -1,0 +1,24 @@
+# Minimal requirements for local runs (Colab installs these in-notebook).
+# Keep this light; notebooks do extra installs as needed.
+
+pyarrow
+pandas
+numpy
+tqdm
+scikit-learn
+pillow
+matplotlib
+scipy
+
+# Agentic steps (stages 04-06)
+openai>=1.0.0
+duckdb
+networkx
+pyvis
+
+# Optional graph exports
+rdflib
+
+# Optional clustering / cartography improvements
+# umap-learn
+# hdbscan

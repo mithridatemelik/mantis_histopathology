@@ -1,0 +1,68 @@
+# Label taxonomy registry (extendable)
+version: 1
+dataset: NCT-CRC-HE (CRC-VAL-HE-7K / NCT-CRC-HE-100K)
+notes:
+  - "These 9 tissue classes are from the Kather et al. CRC patch datasets."
+taxonomy:
+  - id: tissue
+    name: Tissue
+    children:
+      - id: tumor_epithelium
+        name: Tumor epithelium
+        labels: [TUM]
+      - id: normal_epithelium
+        name: Normal mucosa / epithelium
+        labels: [NORM]
+      - id: stroma
+        name: Stroma
+        labels: [STR, MUS]
+      - id: immune
+        name: Immune
+        labels: [LYM]
+      - id: mucus
+        name: Mucus
+        labels: [MUC]
+      - id: adipose
+        name: Adipose
+        labels: [ADI]
+      - id: debris_background
+        name: Debris / Background
+        labels: [DEB, BACK]
+
+labels:
+  ADI:
+    name: Adipose (fat)
+    description: Adipose tissue
+    synonyms: [fat]
+  BACK:
+    name: Background
+    description: Background (non-tissue)
+    synonyms: [blank]
+  DEB:
+    name: Debris
+    description: Debris / artifacts
+    synonyms: [artifact]
+  LYM:
+    name: Lymphocytes
+    description: Lymphocytic infiltrate (immune cells)
+    synonyms: [immune]
+  MUC:
+    name: Mucus
+    description: Mucin / mucus rich regions
+    synonyms: [mucin]
+  MUS:
+    name: Smooth muscle
+    description: Smooth muscle bundles
+    synonyms: [muscle]
+  NORM:
+    name: Normal mucosa
+    description: Normal colon mucosa / epithelium
+    synonyms: [normal]
+  STR:
+    name: Stroma
+    description: Cancer-associated stroma
+    synonyms: [fibroblast]
+  TUM:
+    name: Tumor
+    description: Colorectal adenocarcinoma epithelium
+    synonyms: [adenocarcinoma]
